@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -40,10 +40,9 @@ const Sample = () => {
 
   const [buttonIndexDriver, setButtonIndexDriver] = useState(0);
   const [buttonIndexGG, setButtonIndexGG] = useState(0);
+  const [size, setSize] = useState(0.3);
 
   const onSubmitButtonClick = () => {};
-
-  const [size, setSize] = useState(0.3);
 
   return (
     <KeyboardAvoidingView
@@ -51,6 +50,7 @@ const Sample = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : null}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
+          <Text style={styles.headerText}>Product Details</Text>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ margin: 5 }}>
               <Text style={styles.titleText}>Product Type</Text>
@@ -260,6 +260,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 15,
+  },
+  headerText: {
+    fontSize: 24,
+    color: ComponentStyles.COLORS.BLACK,
+    fontFamily: ComponentStyles.FONT_FAMILY.BOLD,
+    alignSelf: 'center',
+    marginBottom: 20,
   },
   titleText: {
     color: ComponentStyles.COLORS.BLACK,
