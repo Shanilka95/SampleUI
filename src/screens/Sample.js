@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import ComponentStyles from '../common/Component.styles';
 import { RadioButton, ProgressBar } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DriverTip = [
   { id: 0, name: '$1' },
@@ -42,7 +43,23 @@ const Sample = () => {
   const [buttonIndexGG, setButtonIndexGG] = useState(0);
   const [size, setSize] = useState(0.3);
 
-  const onSubmitButtonClick = () => {};
+  const storeData = async () => {
+    try {
+      const object = JSON.stringify({
+        description: description,
+        productCost: productCost,
+        insurance: insurance,
+        packageSize: size,
+        DriverTip: DriverTip[buttonIndexDriver].name,
+        GoGreenTip: GoGreenTip[buttonIndexGG].name,
+        driverNote: driverNote,
+      });
+      console.log('OBJECT', object);
+      await AsyncStorage.setItem('@object', object);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -243,7 +260,7 @@ const Sample = () => {
             <TouchableOpacity
               style={styles.submitButtonStyle}
               activeOpacity={0.5}
-              onPress={() => this.onSubmitButtonClick}>
+              onPress={() => storeData()}>
               <Text style={styles.buttonTextStyle}> ADD </Text>
             </TouchableOpacity>
           </ScrollView>
