@@ -16,11 +16,31 @@ import {
 import ComponentStyles from '../common/Component.styles';
 import { RadioButton, ProgressBar } from 'react-native-paper';
 
+const DriverTip = [
+  { id: 0, name: '$1' },
+  { id: 1, name: '$5' },
+  { id: 2, name: '$10' },
+  { id: 3, name: 'Other' },
+  { id: 4, name: 'No' },
+];
+
+const GoGreenTip = [
+  { id: 0, name: '$1' },
+  { id: 1, name: '$5' },
+  { id: 2, name: '$10' },
+  { id: 3, name: 'Other' },
+  { id: 4, name: 'No' },
+];
+
 const Sample = () => {
   const [description, setDescription] = useState('');
   const [productCost, setProductCost] = useState('');
   const [insurance, setInsurance] = useState(false);
   const [driverNote, setDriverNote] = useState('');
+
+  const [buttonIndexDriver, setButtonIndexDriver] = useState(0);
+  const [buttonIndexGG, setButtonIndexGG] = useState(0);
+
   const onSubmitButtonClick = () => {};
 
   const [size, setSize] = useState(0.3);
@@ -127,27 +147,104 @@ const Sample = () => {
                 style={{ height: 10, borderRadius: 3, margin: 5 }}
               />
             </View>
-            {/* <Text style={styles.titleText}>Tip your driver</Text>
-            <Text style={styles.titleText}>Support go green</Text>
-            <Text style={styles.sponsorText}>{desc4}</Text>
-            <Text style={styles.titleText}>Note for driver</Text> */}
-            {/* <View style={styles.textAreaContainer}>
-              <TextInput
-                style={styles.textArea}
-                placeholder="Add your notes"
-                placeholderTextColor="#8F9BB3"
-                numberOfLines={5}
-                multiline={true}
-                defaultValue={driverNote}
-                onChangeText={driverNoteText => setDriverNote(driverNoteText)}
-              />
+
+            <View style={{ margin: 5 }}>
+              <Text style={styles.titleText}>Tip your driver</Text>
+
+              <View style={styles.btnContainer}>
+                {DriverTip.map((data, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => setButtonIndexDriver(index)}
+                      style={
+                        index === buttonIndexDriver
+                          ? [
+                              styles.btn,
+                              {
+                                backgroundColor: ComponentStyles.COLORS.ORANGE,
+                              },
+                            ]
+                          : styles.btn
+                      }>
+                      <Text
+                        style={
+                          index === buttonIndexDriver
+                            ? [
+                                styles.btnText,
+                                {
+                                  color: ComponentStyles.COLORS.WHITE,
+                                },
+                              ]
+                            : styles.btnText
+                        }>
+                        {data.name}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <Text style={styles.descriptionText}>{desc4}</Text>
+            </View>
+
+            <View style={{ margin: 5 }}>
+              <Text style={styles.titleText}>Support go green</Text>
+              <View style={styles.btnContainer}>
+                {GoGreenTip.map((data, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => setButtonIndexGG(index)}
+                      style={
+                        index === buttonIndexGG
+                          ? [
+                              styles.btn,
+                              {
+                                backgroundColor: ComponentStyles.COLORS.ORANGE,
+                              },
+                            ]
+                          : styles.btn
+                      }>
+                      <Text
+                        style={
+                          index === buttonIndexGG
+                            ? [
+                                styles.btnText,
+                                {
+                                  color: ComponentStyles.COLORS.WHITE,
+                                },
+                              ]
+                            : styles.btnText
+                        }>
+                        {data.name}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <Text style={styles.descriptionText}>{desc5}</Text>
+            </View>
+
+            <View style={{ margin: 5 }}>
+              <Text style={styles.titleText}>Note for driver</Text>
+              <View style={styles.textAreaContainer}>
+                <TextInput
+                  style={styles.textArea}
+                  placeholder="Add your notes"
+                  placeholderTextColor="#8F9BB3"
+                  numberOfLines={5}
+                  multiline={true}
+                  defaultValue={driverNote}
+                  onChangeText={driverNoteText => setDriverNote(driverNoteText)}
+                />
+              </View>
             </View>
             <TouchableOpacity
               style={styles.submitButtonStyle}
               activeOpacity={0.5}
               onPress={() => this.onSubmitButtonClick}>
               <Text style={styles.buttonTextStyle}> ADD </Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </ScrollView>
         </SafeAreaView>
       </TouchableWithoutFeedback>
@@ -194,6 +291,28 @@ const styles = StyleSheet.create({
     fontFamily: ComponentStyles.FONT_FAMILY.SEMI_BOLD,
   },
 
+  btnContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 30,
+    marginVertical: 15,
+    backgroundColor: '#faf1eb',
+    borderRadius: 8,
+    width: '100%',
+  },
+  btn: {
+    width: ComponentStyles.WIDTH / 5.5,
+    backgroundColor: '#faf1eb',
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnText: {
+    fontSize: 16,
+    fontFamily: ComponentStyles.FONT_FAMILY.BOLD,
+    color: ComponentStyles.COLORS.BLACK,
+  },
+
   inputText: {
     height: 50,
     color: ComponentStyles.COLORS.BLACK,
@@ -231,7 +350,7 @@ const styles = StyleSheet.create({
   },
   textArea: {
     width: '100%',
-    height: 86,
+    height: 90,
     padding: 15,
     fontSize: 15,
     color: ComponentStyles.COLORS.BLACK,
@@ -241,7 +360,8 @@ const styles = StyleSheet.create({
   textAreaContainer: {
     borderColor: '#8F9BB3',
     borderWidth: 0.5,
-    borderRadius: 5,
+    borderRadius: 8,
+    top: 10,
   },
   noteText: {
     color: 'black',
@@ -262,4 +382,6 @@ const desc3 =
   'Choose your insurance value in accordance with the value of your goods and needs.';
 const desc4 =
   'Support your driver and make their day! 100% of your tip will be transferred to them.';
+const desc5 =
+  'We are sponsoring 15% of the total fare for carbon free environment. Support us to reduce carbon emission to save the earth!';
 export default Sample;
