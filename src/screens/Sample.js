@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -12,11 +12,32 @@ import {
   SafeAreaView,
 } from 'react-native';
 import ComponentStyles from '../common/Component.styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Sample = () => {
   const [description, setDescription] = React.useState('');
   const [driverNote, setDriverNote] = React.useState('');
-  const onSubmitButtonClick = () => {};
+
+  const onSubmitButtonClick = async () => {
+    try {
+      await AsyncStorage.setItem('@description', description);
+    } catch (error) {
+      console.log(error);
+    }
+    Keyboard.dismiss();
+  };
+
+  useEffect(() => {
+    const firstLoad = async () => {
+      try {
+        const savedDescription = await AsyncStorage.getItem('@description');
+        setDescription(savedDescription);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    firstLoad();
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -73,7 +94,7 @@ const Sample = () => {
           <TouchableOpacity
             style={styles.submitButtonStyle}
             activeOpacity={0.5}
-            onPress={() => this.onSubmitButtonClick}>
+            onPress={onSubmitButtonClick}>
             <Text style={styles.buttonTextStyle}> ADD </Text>
           </TouchableOpacity>
         </SafeAreaView>
