@@ -69,6 +69,7 @@ const Sample = () => {
             <View style={{ margin: 5 }}>
               <Text style={styles.titleText}>Product Cost</Text>
               <View style={styles.inputView}>
+                <Text style={styles.titleText}>$</Text>
                 <TextInput
                   style={styles.inputText}
                   placeholder="Product Cost"
